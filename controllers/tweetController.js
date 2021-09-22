@@ -11,8 +11,11 @@ const tweetController = {
   // 首頁
   getTweets: (req, res) => {
     return Promise.all([
+
       Tweet.findAll({
-        include: [User, Reply],
+        // raw: true,
+        // nest: true,
+        include: [User,  Reply],
         order: [
           ['createdAt', 'DESC'], // Sorts by createdAt in descending order
         ]
@@ -38,16 +41,13 @@ const tweetController = {
       
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
-        // likeCount: tweets.filter(tweet => tweet.UserId === user.dataValues.id).reduce((accumulator, currentValue) => {
-        //   const addCount = currentValue.Likes.UserId ? 1 : 0
-        //   return accumulator + addCount
-        // }),
-        description: tweet.dataValues.description,
-        createdAt: tweet.dataValues.createdAt,
+        id : tweet.id,  //拿到tweet的id
+        // likeCount: req.user.LikedTweets.length,
+        description: tweet.description,
+        createdAt: tweet.createdAt,
         userName: tweet.User.name,
         userAccount: tweet.User.account,
       }))
-      console.log(data)
 
       return res.render('tweets', {
         tweets: data,
