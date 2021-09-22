@@ -80,9 +80,7 @@ router.get('/admin/logout', adminController.logout)
 
 //後台 - 首頁
 router.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/tweets'))
-// 後台 - 使用者列表
 router.get('/admin/users', authenticatedAdmin, adminController.getUsers)
-// 後台 - 推文清單
 router.get('/admin/tweets', authenticatedAdmin, adminController.getTweets)
 router.delete('/admin/tweets/:id', authenticatedAdmin, adminController.deleteTweet)
 
