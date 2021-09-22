@@ -25,17 +25,12 @@ const tweetController = {
         ],
         where: { role: "user" }
       }),
-    ]).then(([users, tweets]) => {
-      // 列出 追隨數前十名的使用者
-      
-      // console.log(users.map(user => ({
-      //   ...user.dataValues,
-        
-      // })))
+    ]).then(([tweets, users]) => {
+      // TODO 為什麼更換 tweets 和 users 的順序會有錯誤？
       const topUsers =
         users.map(user => ({
           ...user.dataValues,
-          followerCount: user.dataValues.User.dataValues.followerCount,
+          followerCount: user.dataValues.followerCount,
           isFollowed: req.user.Followings.map(d => d.id).includes(user.id) //登入使用者是否已追蹤該名user
         }))
           .sort((a, b) => b.followerCount - a.followerCount)
@@ -53,9 +48,10 @@ const tweetController = {
         // }),
         description: tweet.dataValues.description,
         createdAt: tweet.dataValues.createdAt,
-        userName: tweet.dataValues.name,
-        userAccount: tweet.dataValues.account,
+        userName: tweet.User.name,
+        userAccount: tweet.User.account,
       }))
+      console.log(data)
 
       return res.render('tweets', {
         tweets: data,
