@@ -1,4 +1,5 @@
 const db = require('../models')
+const user = require('../models/user')
 const Tweet = db.Tweet
 const Reply = db.Reply
 const User = db.User
@@ -24,25 +25,36 @@ const tweetController = {
         ],
         where: { role: "user" }
       }),
-    ]).then(([tweets, users]) => {
+    ]).then(([users, tweets]) => {
       // 列出 追隨數前十名的使用者
+      
+      // console.log(users.map(user => ({
+      //   ...user.dataValues,
+        
+      // })))
       const topUsers =
         users.map(user => ({
           ...user.dataValues,
-          followerCount: user.Followers.length,
+          followerCount: user.dataValues.User.dataValues.followerCount,
           isFollowed: req.user.Followings.map(d => d.id).includes(user.id) //登入使用者是否已追蹤該名user
         }))
           .sort((a, b) => b.followerCount - a.followerCount)
           .slice(0, 10)
-
+      console.log(topUsers) // 印出來的會是 tweets而不是 users
+      // console.log(tweets.map(tweet => ({
+      //   ...tweet.dataValues,
+        
+      // })))
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
-        likedCount: req.user.LikedTweets.length,
-        description: tweet.description,
-        createdAt: tweet.createdAt,
-        userName: tweet.User.name,
-        userAccount: tweet.User.account,
-        isLiked: req.user.LikedTweets.map(d => d.id).includes(tweet.id) // 推文是否被喜歡過
+        // likeCount: tweets.filter(tweet => tweet.UserId === user.dataValues.id).reduce((accumulator, currentValue) => {
+        //   const addCount = currentValue.Likes.UserId ? 1 : 0
+        //   return accumulator + addCount
+        // }),
+        description: tweet.dataValues.description,
+        createdAt: tweet.dataValues.createdAt,
+        userName: tweet.dataValues.name,
+        userAccount: tweet.dataValues.account,
       }))
 
       return res.render('tweets', {

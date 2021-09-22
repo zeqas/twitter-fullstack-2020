@@ -98,7 +98,7 @@
       <div class="tweet border">
         <div class="d-flex">
           <span class="avatar m-2">
-            <img src="{{noImage this.User.avatar}}" alt="" class="rounded-circle userImage">
+            <img src="{{this.User.avatar}}" alt="" class="rounded-circle userImage">
           </span>
           <div class="">
             <div class="d-flex">
@@ -120,7 +120,7 @@
               </a>
               <div clss="like col-lg-2 d-flex">
                 <span class="likeIcon me-2">
-                  {{#if this.data.isLiked}}
+                  {{#if this.isLiked}}
                   <form action="/like/{{this.id}}" method="POST">
                     <i class="far fa-heart" type="submit"></i>
                   </form>
@@ -130,7 +130,7 @@
                   </form>
                   {{/if}}
                 </span>
-                <span class="likeAmount">{{this.likedCount}}</span>
+                <span class="likeAmount">{{this.likeCount}}</span>
               </div>
             </div>
           </div>
@@ -152,7 +152,7 @@
           <div class="user d-flex">
             <div class="avatar m-2">
               <a href="/users/{{this.id}}">
-                <img src="{{noImage this.avatar}}" alt="" class="rounded-circle userImage">
+                <img src="{{this.avatar}}" alt="" class="rounded-circle userImage">
               </a>
             </div>
             <div class="information">
@@ -173,10 +173,9 @@
             {{/if}}
           </div>
         </div>
-        {{/ifCondNot}}
-        {{/each}}
-
       </div>
+      {{/ifCondNot}}
+      {{/each}}
     </div>
 
   </div>
