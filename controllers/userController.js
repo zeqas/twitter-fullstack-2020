@@ -133,8 +133,8 @@ const userController = {
               data,
               tweets: data,
               userProfile,
-              loginUserId,
-              replyNum,
+              loginUserId
+              
             })
           }).catch(err => console.log(err))
       }).catch(err => console.log(err))

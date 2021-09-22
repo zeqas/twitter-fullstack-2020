@@ -35,11 +35,7 @@ const tweetController = {
         }))
           .sort((a, b) => b.followerCount - a.followerCount)
           .slice(0, 10)
-      console.log(topUsers) // 印出來的會是 tweets而不是 users
-      // console.log(tweets.map(tweet => ({
-      //   ...tweet.dataValues,
-        
-      // })))
+      
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
         // likeCount: tweets.filter(tweet => tweet.UserId === user.dataValues.id).reduce((accumulator, currentValue) => {
